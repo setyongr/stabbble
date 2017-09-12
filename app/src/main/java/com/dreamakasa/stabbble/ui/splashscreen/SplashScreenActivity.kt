@@ -1,7 +1,9 @@
 package com.dreamakasa.stabbble.ui.splashscreen
 
+import android.animation.AnimatorInflater
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.base.BaseInjectedActivity
 import com.dreamakasa.stabbble.injection.component.ActivityComponent
@@ -15,6 +17,9 @@ class SplashScreenActivity: BaseInjectedActivity(){
         btnLogin.setOnClickListener{
             startActivity(Intent(this, MainActivity::class.java))
         }
+
+        val anim = AnimationUtils.loadAnimation(this, R.anim.login_slide)
+        btnLogin.startAnimation(anim)
     }
     override fun injectModule(activityComponent: ActivityComponent) {
         activityComponent.inject(this)
