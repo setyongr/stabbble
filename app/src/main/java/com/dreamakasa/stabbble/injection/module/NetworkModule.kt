@@ -2,7 +2,8 @@ package com.dreamakasa.stabbble.injection.module
 
 import android.content.SharedPreferences
 import com.dreamakasa.stabbble.data.model.Pref
-import com.dreamakasa.stabbble.data.remote.BackboneService
+import com.dreamakasa.stabbble.data.remote.AuthenticationService
+import com.dreamakasa.stabbble.data.remote.StabbbleService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -28,7 +29,7 @@ class NetworkModule{
         }
 
         return Retrofit.Builder()
-                .baseUrl(BackboneService.ENDPOINT)
+                .baseUrl(StabbbleService.ENDPOINT)
                 .client(httpClient.build())
                 .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -37,7 +38,17 @@ class NetworkModule{
 
     @Provides
     @Singleton
-    fun provideJlajahService(retrofit: Retrofit): BackboneService {
-        return retrofit.create(BackboneService::class.java)
+    fun provideStabbbleService(retrofit: Retrofit): StabbbleService =
+            retrofit.create(StabbbleService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAuthenticationService() : AuthenticationService{
+        val retrofit = Retrofit.Builder()
+                .baseUrl(AuthenticationService.ENDPOINT)
+                .addConverterFactory(MoshiConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+        return retrofit.create(AuthenticationService::class.java)
     }
 }

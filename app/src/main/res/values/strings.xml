@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Stabbble</string>
+    <string name="close_btn_desc">Close Button</string>
 </resources>

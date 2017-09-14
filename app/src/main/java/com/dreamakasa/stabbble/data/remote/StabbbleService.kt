@@ -8,15 +8,12 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 
-interface BackboneService{
+interface StabbbleService {
     companion object {
-        val ENDPOINT = "https://yourapi.com/"
+        val ENDPOINT = "https://api.dribbble.com/v1/"
     }
 
-    @GET("/")
-    fun getSample(): Observable<SampleReq>
+    @GET("/token")
+    fun getAccessToken(): Observable<SampleReq>
 
-    //Return call because it will called synchronously
-    @POST("/refresh")
-    fun refreshToken(): Call<TokenRes>
 }

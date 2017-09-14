@@ -1,18 +1,26 @@
 package com.dreamakasa.stabbble.ui.main
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.widget.Toast
 
 import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.base.BaseInjectedActivity
+import com.dreamakasa.stabbble.data.model.Pref
 import com.dreamakasa.stabbble.injection.component.ActivityComponent
+import com.dreamakasa.stabbble.ui.splashscreen.SplashScreenActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 
 class MainActivity : BaseInjectedActivity() {
+
+    @Inject lateinit var pref: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +39,13 @@ class MainActivity : BaseInjectedActivity() {
         ))
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(!pref.getBoolean(Pref.IS_LOGGED_ID, false)){
+            startActivity(Intent(this, SplashScreenActivity::class.java))
+            finish()
+        }
+    }
     override fun injectModule(activityComponent: ActivityComponent) {
         activityComponent.inject(this)
     }

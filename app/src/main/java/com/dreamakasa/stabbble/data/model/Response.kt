@@ -5,6 +5,8 @@ class SampleRes(
 )
 
 class TokenRes(
-    var accessToken: String,
-    var refreshToken: String
+    var access_token: String,
+    var token_type: String,
+    var scope: String
 )
+

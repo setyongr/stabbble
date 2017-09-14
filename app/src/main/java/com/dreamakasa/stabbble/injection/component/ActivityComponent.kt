@@ -3,6 +3,7 @@ package com.dreamakasa.stabbble.injection.component
 import com.dreamakasa.stabbble.injection.PerActivity
 import com.dreamakasa.stabbble.ui.main.MainActivity
 import com.dreamakasa.stabbble.injection.module.ActivityModule
+import com.dreamakasa.stabbble.ui.splashscreen.AuthDialog
 import com.dreamakasa.stabbble.ui.splashscreen.SplashScreenActivity
 import dagger.Subcomponent
 
@@ -20,5 +21,5 @@ interface ActivityComponent {
 
     fun inject(activity: MainActivity)
     fun inject(splashScreenActivity: SplashScreenActivity)
-
+    fun inject(authDialog: AuthDialog)
 }
