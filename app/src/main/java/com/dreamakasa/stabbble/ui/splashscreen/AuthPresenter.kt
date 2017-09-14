@@ -27,6 +27,7 @@ class AuthPresenter @Inject constructor(
                                 },
                                 {
                                     it.printStackTrace()
+                                    getView().loginError("Whoopss", "Something went wrong")
                                 }
                         )
         addDisposable(disposable)

@@ -17,10 +17,12 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.base.BaseInjectedDialog
+import com.dreamakasa.stabbble.common.showDefaultError
 import com.dreamakasa.stabbble.data.remote.AuthenticationService
 import com.dreamakasa.stabbble.data.remote.Config
 import com.dreamakasa.stabbble.injection.component.ActivityComponent
 import com.dreamakasa.stabbble.ui.main.MainActivity
+import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.dialog_auth.*
 import javax.inject.Inject
 
@@ -54,7 +56,7 @@ class AuthDialog: BaseInjectedDialog(), AuthView{
                         presenter.getToken(code)
                     }else if(uri.getQueryParameter("error") != null){
                         //Show Error
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                        loginError("Whoopss", "Something went wrong")
                     }
                     return true
                 }
@@ -84,8 +86,14 @@ class AuthDialog: BaseInjectedDialog(), AuthView{
         presenter.attachView(this)
     }
     override fun loginSuccess() {
+        progress?.dismiss()
         startActivity(Intent(context, MainActivity::class.java))
         activity.finish()
+    }
+
+    override fun loginError(title: String, content: String) {
+        progress?.dismiss()
+        Alerter.create(activity).showDefaultError(title, content)
     }
 
     override fun onStart() {
