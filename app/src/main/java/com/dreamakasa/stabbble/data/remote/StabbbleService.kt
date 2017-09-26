@@ -13,12 +13,12 @@ interface StabbbleService {
         val ENDPOINT = "https://api.dribbble.com/v1/"
     }
 
-    @GET("/user")
+    @GET("user")
     fun getCurrentUser(): Observable<UserRes>
 
-    @GET("/user/followers")
-    fun getFollowers(@Query("page") page: Int, @Query("per_page") per_page: Int): List<FollowerRes>
+    @GET("user/followers")
+    fun getFollowers(@Query("page") page: Int, @Query("per_page") per_page: Int): Observable<List<FollowerRes>>
 
-    @GET("/user/following")
-    fun getFollowing(@Query("page") page: Int, @Query("per_page") per_page: Int): List<FollowingRes>
+    @GET("user/following")
+    fun getFollowing(@Query("page") page: Int, @Query("per_page") per_page: Int): Observable<List<FollowingRes>>
 }

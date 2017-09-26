@@ -9,7 +9,7 @@ import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.inflate
 import kotlinx.android.synthetic.main.main_items.view.*
 
-class MainListAdapter(private val listItem: MutableList<ListItem> = mutableListOf()): RecyclerView.Adapter<MainListAdapter.ViewHolder>(){
+class MainListAdapter(val listItem: MutableList<ListItem> = mutableListOf()): RecyclerView.Adapter<MainListAdapter.ViewHolder>(){
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(listItem[position])
 

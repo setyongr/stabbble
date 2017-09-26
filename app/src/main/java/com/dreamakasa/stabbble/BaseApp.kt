@@ -6,6 +6,7 @@ import com.dreamakasa.stabbble.injection.component.AppComponent
 import com.dreamakasa.stabbble.injection.component.DaggerAppComponent
 import com.dreamakasa.stabbble.injection.module.AppModule
 import com.dreamakasa.stabbble.injection.module.NetworkModule
+import io.realm.Realm
 
 class BaseApp : Application() {
     companion object {
@@ -21,6 +22,6 @@ class BaseApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
+        Realm.init(this)
     }
 }
