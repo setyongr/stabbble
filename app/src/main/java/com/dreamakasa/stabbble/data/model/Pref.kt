@@ -5,4 +5,5 @@ object Pref{
     val ACCESS_TOKEN = "access_token"
     val REFRESH_TOKEN = "refresh_token"
     val IS_LOGGED_ID = "is_logged_in"
+    val SYNCED_FIRST = "synced_first"
 }

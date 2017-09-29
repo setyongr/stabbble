@@ -65,7 +65,10 @@ class LocalStabbbleService{
     fun setCurrentUser(user: User): Observable<User>{
         return Observable.create<User> ({ emitter ->
             Realm.getDefaultInstance().use { // <-- auto-close
-                it.executeTransaction { realm -> realm.insertOrUpdate(user) }
+                it.executeTransaction { realm ->
+                    realm.where(User::class.java).findAll().deleteAllFromRealm()
+                    realm.insertOrUpdate(user)
+                }
                 emitter.onNext(User(
                         id = user.id,
                         name = user.name,

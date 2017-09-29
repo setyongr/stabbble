@@ -3,6 +3,10 @@ package com.dreamakasa.stabbble.data.model
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
+data class UserData(
+        val id: Int?
+)
+
 open class User(
         @PrimaryKey var id: Int? = null,
         var name: String? = null,
@@ -41,24 +45,22 @@ open class Followers(
         var html_url: String? = null,
         var avatar_url: String? = null,
         var bio: String? = null,
-        var is_analisys: Boolean? = null
+        var flag: Boolean? = null
 ): RealmObject()
 
 open class Following(
         @PrimaryKey var id: Int? = null,
         var name: String? = null,
         var username: String? = null,
-        var html_url: String? = null,
         var avatar_url: String? = null,
         var bio: String? = null,
-        var is_analisys: Boolean? = null
+        var flag: Boolean? = null
 ): RealmObject()
 
 open class  NewFollower(
         @PrimaryKey var id: Int? = null,
         var name: String? = null,
         var username: String? = null,
-        var html_url: String? = null,
         var avatar_url: String? = null,
         var bio: String? = null
 ): RealmObject()
@@ -67,7 +69,6 @@ open class NewUnfollower(
         @PrimaryKey var id: Int? = null,
         var name: String? = null,
         var username: String? = null,
-        var html_url: String? = null,
         var avatar_url: String? = null,
         var bio: String? = null
 ): RealmObject()
@@ -76,7 +77,23 @@ open class NotFollowingBack(
         @PrimaryKey var id: Int? = null,
         var name: String? = null,
         var username: String? = null,
-        var html_url: String? = null,
         var avatar_url: String? = null,
         var bio: String? = null
 ): RealmObject()
+
+open class Friends(
+        @PrimaryKey var id: Int? = null,
+        var name: String? = null,
+        var username: String? = null,
+        var avatar_url: String? = null,
+        var bio: String? = null
+): RealmObject()
+
+open class Fans(
+        @PrimaryKey var id: Int? = null,
+        var name: String? = null,
+        var username: String? = null,
+        var avatar_url: String? = null,
+        var bio: String? = null
+): RealmObject()
+

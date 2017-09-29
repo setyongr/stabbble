@@ -38,12 +38,12 @@ class MainActivity : BaseInjectedActivity(), MainView {
         list.layoutManager = LinearLayoutManager(this)
         list.addItemDecoration(DividerItemDecorator(this, LinearLayoutManager.VERTICAL))
         list.adapter = MainListAdapter(mutableListOf(
-                ListItem("New Followers", 320, 1),
-                ListItem("Lost Followers", 20, -1),
-                ListItem("Not Following Back", 20),
-                ListItem("Everyone You Follow", 5320),
-                ListItem("Friends", 2090),
-                ListItem("Fans", 3230)
+                ListItem("New Followers", 0, 1),
+                ListItem("Lost Followers", 0, -1),
+                ListItem("Not Following Back", 0),
+                ListItem("Everyone You Follow", 0),
+                ListItem("Friends", 0),
+                ListItem("Fans", 0)
         ))
 
         btn_refresh.setOnClickListener {
@@ -56,7 +56,11 @@ class MainActivity : BaseInjectedActivity(), MainView {
         if(!pref.getBoolean(Pref.IS_LOGGED_ID, false)){
             startActivity(Intent(this, SplashScreenActivity::class.java))
             finish()
+        }else{
+            if(!pref.getBoolean(Pref.SYNCED_FIRST, false)) presenter.sync()
+            else presenter.getAnayticsData()
         }
+
     }
     override fun injectModule(activityComponent: ActivityComponent) {
         activityComponent.inject(this)
@@ -66,16 +70,19 @@ class MainActivity : BaseInjectedActivity(), MainView {
         progres = ProgressDialog.show(this, "Loading...", "Analyzing your account...", true, false)
     }
 
-    override fun onSyncComplete(newFollowerCount: Long, newUnfollowerCount: Long) {
-        Log.d("Follow", newFollowerCount.toString())
-        Log.d("Follow", newUnfollowerCount.toString())
+    override fun onSyncComplete(result: AnalyticsResult) {
         (list.adapter as MainListAdapter).apply {
-            listItem[0].value = newFollowerCount.toInt()
-            listItem[1].value = newUnfollowerCount.toInt()
+            listItem[0].value = result.new_follower.toInt()
+            listItem[1].value = result.lost_follower.toInt()
+            listItem[2].value = result.not_following_back.toInt()
+            listItem[3].value = result.you_follow.toInt()
+            listItem[4].value = result.friends.toInt()
+            listItem[5].value = result.fans.toInt()
             notifyDataSetChanged()
         }
         progres?.dismiss()
         presenter.currentUser()
+        pref.edit().putBoolean(Pref.SYNCED_FIRST, true).apply()
     }
 
     override fun onSyncError(title: String, content: String) {
