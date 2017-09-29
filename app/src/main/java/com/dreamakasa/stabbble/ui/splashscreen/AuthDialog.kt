@@ -10,10 +10,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.Toast
 import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.base.BaseInjectedDialog
@@ -25,6 +22,7 @@ import com.dreamakasa.stabbble.ui.main.MainActivity
 import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.dialog_auth.*
 import javax.inject.Inject
+
 
 class AuthDialog: BaseInjectedDialog(), AuthView{
     @Inject lateinit var presenter: AuthPresenter
@@ -58,8 +56,17 @@ class AuthDialog: BaseInjectedDialog(), AuthView{
                         //Show Error
                         loginError("Whoopss", "Something went wrong")
                     }
+
+                    val cookieManager = CookieManager.getInstance()
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        cookieManager.removeAllCookies(null)
+                    }else{
+                        cookieManager.removeAllCookie()
+                    }
                     return true
                 }
+
 
                 return false
             }

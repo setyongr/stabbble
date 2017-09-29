@@ -3,11 +3,14 @@ package com.dreamakasa.stabbble.ui.main
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.PopupMenu
 import android.util.Log
+import android.view.Gravity
 import android.widget.Toast
 
 import com.dreamakasa.stabbble.R
@@ -18,6 +21,7 @@ import com.dreamakasa.stabbble.data.model.User
 import com.dreamakasa.stabbble.injection.component.ActivityComponent
 import com.dreamakasa.stabbble.ui.splashscreen.SplashScreenActivity
 import com.tapadoo.alerter.Alerter
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -48,6 +52,33 @@ class MainActivity : BaseInjectedActivity(), MainView {
 
         btn_refresh.setOnClickListener {
             presenter.sync()
+        }
+
+        btn_more.setOnClickListener{
+            val popup = PopupMenu(this, btn_more)
+
+            popup.menuInflater.inflate(R.menu.main_menu, popup.menu)
+
+            popup.setOnMenuItemClickListener {
+                when(it.itemId){
+                    R.id.about_menu -> {
+                        true
+                    }
+                    R.id.logout_menu -> {
+                        pref.edit().remove(Pref.IS_LOGGED_ID).apply()
+                        pref.edit().remove(Pref.SYNCED_FIRST).apply()
+                        pref.edit().remove(Pref.ACCESS_TOKEN).apply()
+                        Realm.deleteRealm(Realm.getDefaultConfiguration())
+                        startActivity(Intent(this, SplashScreenActivity::class.java))
+                        finish()
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+            }
+            popup.show()
         }
     }
 
