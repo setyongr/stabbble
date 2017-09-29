@@ -5,6 +5,7 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
+import android.widget.TextView
 import com.dreamakasa.stabbble.R
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -19,7 +20,7 @@ class CollapsingImageBehavior : CoordinatorLayout.Behavior<View> {
     private var mTarget: IntArray? = null
 
     @Suppress("unused")
-    constructor() {}
+    constructor()
 
     @Suppress("unused")
     constructor(context: Context, attrs: AttributeSet?) {
@@ -43,7 +44,7 @@ class CollapsingImageBehavior : CoordinatorLayout.Behavior<View> {
 
         setup(parent, child)
 
-        val username = parent!!.findViewById(mHideableTargetId)
+        val username = parent!!.findViewById<TextView>(mHideableTargetId)
         val appBarLayout = dependency as AppBarLayout?
 
         val range = appBarLayout!!.totalScrollRange
@@ -58,7 +59,7 @@ class CollapsingImageBehavior : CoordinatorLayout.Behavior<View> {
         val width = mView!![WIDTH] + (factor * (mTarget!![WIDTH] - mView!![WIDTH]))
         val height = mView!![HEIGHT] + (factor * (mTarget!![HEIGHT] - mView!![HEIGHT]))
 
-        val lp = child!!.layoutParams as CoordinatorLayout.LayoutParams
+        val lp = child.layoutParams as CoordinatorLayout.LayoutParams
         lp.width = width.toInt()
         lp.height = height.toInt()
         child.layoutParams = lp
@@ -80,7 +81,7 @@ class CollapsingImageBehavior : CoordinatorLayout.Behavior<View> {
         mView!![WIDTH] = child.width
         mView!![HEIGHT] = child.height
 
-        val target = parent!!.findViewById(mTargetId) ?: throw IllegalStateException("target view not found")
+        val target = parent!!.findViewById<View>(mTargetId) ?: throw IllegalStateException("target view not found")
 
         mTarget!![WIDTH] += target.width
         mTarget!![HEIGHT] += target.height

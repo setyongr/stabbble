@@ -12,6 +12,8 @@ import android.support.v7.widget.PopupMenu
 import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.TransitionOptions
 
 import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.base.BaseInjectedActivity
@@ -125,5 +127,6 @@ class MainActivity : BaseInjectedActivity(), MainView {
         text_username.text = user.username
         text_follower_count.text = user.followers_count.toString()
         text_following_count.text = user.followings_count.toString()
+        Glide.with(this).load(user.avatar_url).into(circle_image_view)
     }
 }
