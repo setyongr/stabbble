@@ -27,6 +27,9 @@ class MainListAdapter(val listItem: MutableList<ListItem> = mutableListOf()): Re
                 -1 -> text_value.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_caret_down, 0, 0, 0)
             }
             text_value.text = listItem.value.toString()
+            itemView.setOnClickListener {
+                listItem.onClick?.invoke()
+            }
         }
     }
 }

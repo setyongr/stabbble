@@ -5,7 +5,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="#fff">
+    android:background="@drawable/item_ripple"
+    android:clickable="true"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/text_title"

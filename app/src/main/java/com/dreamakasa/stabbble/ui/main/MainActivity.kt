@@ -3,17 +3,11 @@ package com.dreamakasa.stabbble.ui.main
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
-import android.util.Log
-import android.view.Gravity
-import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.bumptech.glide.TransitionOptions
 
 import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.base.BaseInjectedActivity
@@ -21,6 +15,7 @@ import com.dreamakasa.stabbble.common.showDefaultError
 import com.dreamakasa.stabbble.data.model.Pref
 import com.dreamakasa.stabbble.data.model.User
 import com.dreamakasa.stabbble.injection.component.ActivityComponent
+import com.dreamakasa.stabbble.ui.newfollower.NewFollowerActivity
 import com.dreamakasa.stabbble.ui.splashscreen.SplashScreenActivity
 import com.tapadoo.alerter.Alerter
 import io.realm.Realm
@@ -44,7 +39,9 @@ class MainActivity : BaseInjectedActivity(), MainView {
         list.layoutManager = LinearLayoutManager(this)
         list.addItemDecoration(DividerItemDecorator(this, LinearLayoutManager.VERTICAL))
         list.adapter = MainListAdapter(mutableListOf(
-                ListItem("New Followers", 0, 1),
+                ListItem("New Followers", 0, 1){
+                    startActivity(Intent(this, NewFollowerActivity::class.java))
+                },
                 ListItem("Lost Followers", 0, -1),
                 ListItem("Not Following Back", 0),
                 ListItem("Everyone You Follow", 0),
