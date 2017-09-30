@@ -115,6 +115,9 @@ class AnalyticsService @Inject constructor(
                         {
                             data ->
                             //Add to follower
+                            val followers = realm.where(Followers::class.java).equalTo("id", data.followee.id).findFirst()
+                            val new_followers = realm.where(NewFollower::class.java).equalTo("id", data.followee.id).findFirst()
+                            val new_unfollowers = realm.where(NewUnfollower::class.java).equalTo("id", data.followee.id).findFirst()
                             realm.executeTransaction {
                                 it.insertOrUpdate(Following(
                                         id = data.followee.id,
@@ -124,6 +127,16 @@ class AnalyticsService @Inject constructor(
                                         bio = data.followee.bio,
                                         flag = false
                                 ))
+
+                                followers?.let {
+                                    it.isFollowing = true
+                                }
+                                new_followers?.let {
+                                    it.isFollowing = true
+                                }
+                                new_unfollowers?.let {
+                                    it.isFollowing = true
+                                }
                             }
                         },
                         {

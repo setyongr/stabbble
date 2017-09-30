@@ -7,15 +7,33 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.RealmRecyclerViewAdapter
+import com.dreamakasa.stabbble.data.DataManager
 import com.dreamakasa.stabbble.data.model.NewFollower
 import io.realm.OrderedRealmCollection
 import kotlinx.android.synthetic.main.list_item.view.*
+import javax.inject.Inject
 
-class NewFollowerAdapter(data:OrderedRealmCollection<NewFollower>) : RealmRecyclerViewAdapter<NewFollower, NewFollowerAdapter.ViewHolder>(data, true){
+class NewFollowerAdapter @Inject constructor(dataManager: DataManager) :
+        RealmRecyclerViewAdapter<NewFollower, NewFollowerAdapter.ViewHolder>(dataManager.getLocalNewFollower(), true),
+        NewFollowerView
+{
+
+
+    @Inject lateinit var presenter: NewFollowerPresenter
+
     init {
         setHasStableIds(true)
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+        super.onAttachedToRecyclerView(recyclerView)
+        presenter.attachView(this)
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView?) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        presenter.detachView()
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,7 +41,14 @@ class NewFollowerAdapter(data:OrderedRealmCollection<NewFollower>) : RealmRecycl
         return ViewHolder(view)
     }
 
-    class ViewHolder(v: View): RecyclerView.ViewHolder(v){
+    override fun onFollowSuccess(position: Int) {
+        data?.get(position)?.username
+    }
+
+    override fun onFollowError(position: Int) {
+    }
+
+    inner class ViewHolder(v: View): RecyclerView.ViewHolder(v){
         fun bind(data: NewFollower?) = with(itemView){
             Glide.with(context).load(data?.avatar_url).into(avatar)
             name.text = data?.name

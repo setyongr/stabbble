@@ -8,8 +8,10 @@ import com.dreamakasa.stabbble.data.model.NewFollower
 import com.dreamakasa.stabbble.injection.component.ActivityComponent
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_new_follower.*
+import javax.inject.Inject
 
 class NewFollowerActivity: BaseInjectedActivity(){
+    @Inject lateinit var adapter: NewFollowerAdapter
 
     val realm: Realm = Realm.getDefaultInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +21,7 @@ class NewFollowerActivity: BaseInjectedActivity(){
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         list.layoutManager = LinearLayoutManager(this)
-        list.adapter = NewFollowerAdapter(realm.where(NewFollower::class.java).findAll())
+        list.adapter = adapter
 
     }
     override fun injectModule(activityComponent: ActivityComponent) {

@@ -45,7 +45,8 @@ open class Followers(
         var html_url: String? = null,
         var avatar_url: String? = null,
         var bio: String? = null,
-        var flag: Boolean? = null
+        var flag: Boolean? = null,
+        var isFollowing: Boolean = false
 ): RealmObject()
 
 open class Following(
@@ -62,7 +63,8 @@ open class  NewFollower(
         var name: String? = null,
         var username: String? = null,
         var avatar_url: String? = null,
-        var bio: String? = null
+        var bio: String? = null,
+        var isFollowing: Boolean = false
 ): RealmObject()
 
 open class NewUnfollower(
@@ -70,7 +72,8 @@ open class NewUnfollower(
         var name: String? = null,
         var username: String? = null,
         var avatar_url: String? = null,
-        var bio: String? = null
+        var bio: String? = null,
+        var isFollowing: Boolean = false
 ): RealmObject()
 
 open class NotFollowingBack(
@@ -78,7 +81,8 @@ open class NotFollowingBack(
         var name: String? = null,
         var username: String? = null,
         var avatar_url: String? = null,
-        var bio: String? = null
+        var bio: String? = null,
+        var isFollowing: Boolean = true
 ): RealmObject()
 
 open class Friends(
@@ -86,7 +90,8 @@ open class Friends(
         var name: String? = null,
         var username: String? = null,
         var avatar_url: String? = null,
-        var bio: String? = null
+        var bio: String? = null,
+        var isFollowing: Boolean = true
 ): RealmObject()
 
 open class Fans(
@@ -94,6 +99,7 @@ open class Fans(
         var name: String? = null,
         var username: String? = null,
         var avatar_url: String? = null,
-        var bio: String? = null
+        var bio: String? = null,
+        var isFollowing: Boolean = false
 ): RealmObject()
 

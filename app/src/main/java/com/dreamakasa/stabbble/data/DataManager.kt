@@ -24,6 +24,8 @@ class DataManager @Inject constructor(
         private val local: LocalStabbbleService
 ){
 
+    private val realm: Realm = Realm.getDefaultInstance()
+
     fun syncUser(): Observable<User>{
         return remote.getCurrentUser()
                 .subscribeOn(Schedulers.io())
@@ -68,4 +70,12 @@ class DataManager @Inject constructor(
     fun currentUser(): Observable<User> = local.getCurrentUser()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+    fun getLocalNewFollower() = realm.where(NewFollower::class.java).findAll()
+    fun getLocalNewUnfollower() = realm.where(NewUnfollower::class.java).findAll()
+    fun getLocalNotFollowingBack() = realm.where(NotFollowingBack::class.java).findAll()
+    fun getLocalFollower() = realm.where(Followers::class.java).findAll()
+    fun getLocalFollowing() = realm.where(Following::class.java).findAll()
+    fun getLocalFriends() = realm.where(Friends::class.java).findAll()
+    fun getLocalFans() = realm.where(Fans::class.java).findAll()
 }
