@@ -111,7 +111,6 @@ class MainActivity : BaseInjectedActivity(), MainView {
             notifyDataSetChanged()
         }
         progres?.dismiss()
-        presenter.currentUser()
         pref.edit().putBoolean(Pref.SYNCED_FIRST, true).apply()
     }
 

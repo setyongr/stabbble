@@ -5,6 +5,7 @@ import com.dreamakasa.stabbble.common.base.RxBasePresenter
 import com.dreamakasa.stabbble.data.AnalyticsService
 import com.dreamakasa.stabbble.data.DataManager
 import com.dreamakasa.stabbble.data.model.*
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
@@ -14,7 +15,7 @@ class MainPresenter @Inject constructor(
         private val dataManager: DataManager,
         private val analyticsService: AnalyticsService
 ): RxBasePresenter<MainView>(){
-    fun sync(){
+    fun syncOld(){
         getView().onSyncStart()
         dataManager.syncUser()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -48,8 +49,27 @@ class MainPresenter @Inject constructor(
                 )
     }
 
+    fun sync(){
+        getView().onSyncStart()
+        addDisposable(
+                Completable.fromObservable(dataManager.syncUser().observeOn(AndroidSchedulers.mainThread()))
+                        .mergeWith(analyticsService.syncFollower())
+                        .mergeWith(analyticsService.syncFollowing())
+                        .subscribe(
+                                {
+                                    getAnayticsData()
+                                },
+                                {
+                                    getView().onSyncError("Whoopss", "Something Went Wrong")
+                                }
+                        )
+        )
+    }
     fun getAnayticsData(){
         val realm = Realm.getDefaultInstance()
+        realm.where(User::class.java).findFirst()?.let {
+            getView().showUserInfo(it)
+        }
         getView().onSyncComplete(AnalyticsResult(
                 new_follower = realm.where(NewFollower::class.java).count(),
                 lost_follower = realm.where(NewUnfollower::class.java).count(),
