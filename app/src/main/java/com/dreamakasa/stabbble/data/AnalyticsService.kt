@@ -2,8 +2,11 @@ package com.dreamakasa.stabbble.data
 
 import android.util.Log
 import com.dreamakasa.stabbble.data.model.*
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
@@ -224,5 +227,20 @@ class AnalyticsService @Inject constructor(
                             onSuccess()
                         }
                 )
+    }
+
+    fun syncFollowing(){
+        Completable.create {
+            emmiter ->
+            following({
+                emmiter.onComplete()
+            }, {
+                emmiter.onError(it)
+            })
+
+            emmiter.setDisposable(Disposables.fromAction {
+                if(!compositeDisposable.isDisposed) compositeDisposable.dispose()
+            })
+        }
     }
 }
