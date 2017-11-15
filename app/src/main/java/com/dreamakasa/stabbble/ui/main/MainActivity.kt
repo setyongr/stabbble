@@ -12,14 +12,16 @@ import com.bumptech.glide.Glide
 import com.dreamakasa.stabbble.R
 import com.dreamakasa.stabbble.common.base.BaseInjectedActivity
 import com.dreamakasa.stabbble.common.showDefaultError
+import com.dreamakasa.stabbble.data.model.NewFollower
 import com.dreamakasa.stabbble.data.model.Pref
 import com.dreamakasa.stabbble.data.model.User
 import com.dreamakasa.stabbble.injection.component.ActivityComponent
-import com.dreamakasa.stabbble.ui.newfollower.NewFollowerActivity
+import com.dreamakasa.stabbble.ui.list.ListActivity
 import com.dreamakasa.stabbble.ui.splashscreen.SplashScreenActivity
 import com.tapadoo.alerter.Alerter
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.intentFor
 import javax.inject.Inject
 
 
@@ -40,13 +42,23 @@ class MainActivity : BaseInjectedActivity(), MainView {
         list.addItemDecoration(DividerItemDecorator(this, LinearLayoutManager.VERTICAL))
         list.adapter = MainListAdapter(mutableListOf(
                 ListItem("New Followers", 0, 1){
-                    startActivity(Intent(this, NewFollowerActivity::class.java))
+                    startActivity(intentFor<ListActivity>("page" to ListActivity.NEW_FOLLOWER))
                 },
-                ListItem("Lost Followers", 0, -1),
-                ListItem("Not Following Back", 0),
-                ListItem("Everyone You Follow", 0),
-                ListItem("Friends", 0),
-                ListItem("Fans", 0)
+                ListItem("Lost Followers", 0, -1){
+                    startActivity(intentFor<ListActivity>("page" to ListActivity.LOST_FOLLOWER))
+                },
+                ListItem("Not Following Back", 0){
+                    startActivity(intentFor<ListActivity>("page" to ListActivity.NOT_FOLLOWING_BACK))
+                },
+                ListItem("Everyone You Follow", 0){
+                    startActivity(intentFor<ListActivity>("page" to ListActivity.FOLLOWING))
+                },
+                ListItem("Friends", 0){
+                    startActivity(intentFor<ListActivity>("page" to ListActivity.FRIENDS))
+                },
+                ListItem("Fans", 0){
+                    startActivity(intentFor<ListActivity>("page" to ListActivity.FANS))
+                }
         ))
 
         btn_refresh.setOnClickListener {

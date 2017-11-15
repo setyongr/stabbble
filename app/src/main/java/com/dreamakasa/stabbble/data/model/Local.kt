@@ -7,6 +7,15 @@ data class UserData(
         val id: Int?
 )
 
+data class PlainUser(
+        var id: Int? = null,
+        var name: String? = null,
+        var username: String? = null,
+        var avatar_url: String? = null,
+        var bio: String? = null,
+        var isFollowing: Boolean = false
+)
+
 open class User(
         @PrimaryKey var id: Int? = null,
         var name: String? = null,
